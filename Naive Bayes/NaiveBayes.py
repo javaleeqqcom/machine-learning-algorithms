@@ -3,9 +3,9 @@
 def loadDataSet(dataSet):
 	data = np.loadtxt(dataSet)
 	#建立测试集和训练集的索引，在数据集中随机取30%的数据作为测试数据
-	shuffle_indexes = np.random.permutation(len(data))
+	shuffle_indexes = np.random.permutation(len(data))	#打乱
 	test_ratio = 0.3
-	test_size = int(len(data) * test_ratio)
+	test_size = int(len(data) * test_ratio)		#测试数据size
 	test_indexes = shuffle_indexes[:test_size]
 	train_indexes = shuffle_indexes[test_size:]
 	#取出训练集和测试结，将第一列的序号改成截距项，最后一列为因变量

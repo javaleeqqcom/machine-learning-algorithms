@@ -4,6 +4,7 @@ import jieba
 import codecs
 import os
 from numpy import *
+import re
 import numpy as np
 import pandas as pd
 from stop_words import get_stop_words #停用词库
@@ -14,7 +15,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import MultinomialNB, GaussianNB, BernoulliNB
 from sklearn.svm import SVC, NuSVC, LinearSVC
 
-textPath = r"./Naive Bayes/SMSSpamCollection.txt"
+textPath = r"./SMSSpamCollection.txt"
 with open(textPath,encoding='utf-8') as f:
     txt_list = f.readlines()
 ham_mails=[]
@@ -38,7 +39,9 @@ stop_words = get_stop_words('english')+['...','..']
 # 去停用词处理方法：words_list是字符串列表，filter_words是要过滤掉的单词列表
 def words_filter(words_list,filter_words):
     res=[]
+    # re.compile('[~]')
     for words in words_list:
+
         word_list = jieba.cut(words)
         #取小写，过滤掉1个字符长度，以及停用词
         L= filter(lambda w:len(w)>1 and (w not in filter_words), map(str.lower,word_list) )
@@ -100,12 +103,14 @@ labels = []
 labels.extend(ones(len(ham_mails)))
 labels.extend(zeros(len(spam_mails)))
 # 划分训练集和测试集
-train,test,trainlabel,testlabel = train_test_split(textMatrix,labels,test_size=0.1)
+train,test,trainlabel,testlabel = train_test_split(textMatrix,labels,test_size=0.3)
 
 
 BYM_lb = bayes.BernoulliNB(alpha=1,binarize=True)   #sklearn的朴素贝叶斯分类器
 model = BYM_lb.fit(train,trainlabel)    # 调用贝叶斯库函数求解模型
 
-print(train)
+print(train.shape)
+print(len(trainlabel))
+print(trainlabel[:int(sqrt(len(trainlabel)))])
 print("识别准确率=",model.score(test,testlabel))
 

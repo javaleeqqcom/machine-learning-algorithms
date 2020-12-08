@@ -31,7 +31,7 @@ def parametersEstimator(trainX,trainY):
 	return pi1,pi0,mu1,mu0,sigma1,sigma0
 
 def normalProb(x,mu,sigma):
-	prob = (1/np.sqrt(2*3.1415926*sigma))*np.exp(-np.square(x-mu)/(2*sigma))
+	prob = (1/np.sqrt(2*np.pi*sigma))*np.exp(-np.square(x-mu)/(2*sigma))
 	return prob
 	
 def predict(testX,pi1,pi0,mu1,mu0,sigma1,sigma0):
